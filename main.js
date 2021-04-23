@@ -9,30 +9,53 @@ function sortJSON(a){
   });
 }
 function gatherInfo(tables){
-  /**Info to gather on each individual, 102eachhhhhhhhhhhhhhhhh+
-   * Max amt of orders in a month
-   * That's it
-   */
   let ordersByX = {};
-  let monthNumb = 1;
+  let monthNumb = 0;
+  let maxMonths = tables.length;
+  let newJSON = [];
+  /**Phase 1 - Gather information 
+   *  Collecting the maximum number of months, number of months
+   *  to be used to properly format
+  */
+  //Access each month
   $(tables).each((a)=>{
+    //Access values
     $(tables[a]).each((b)=>{
       let id = tables[a][b].ACCID;
-      if(!(id in ordersByX)){
-        ordersByX[id]={};
+      // if client is new, init
+      if(typeof ordersByX[id] === 'undefined'){
+        ordersByX[id] = []
+        for(let i = 0; i < maxMonths;i++){
+          ordersByX[id][i] = 0;
+        }
         ordersByX[id][monthNumb] = 1;
-        console.log("new ind found:", id)
       }else{
-        ordersByX[id][monthNumb]++;
-        console.log("added order to ind:", id, ordersByX[id] )
-      }
+        //if client has no orders this month yet, init
+        if(typeof ordersByX[id][monthNumb] === 'undefined'){
+          ordersByX[id][monthNumb] = 1;
+        } else {
+          ordersByX[id][monthNumb] ++;
 
+        }
+      }
     })
-    console.log("---new month")
     monthNumb++;
   });
-  console.log(monthNumb)
+  //Find the most orders by each client
+  let maxOrderNumb = {}
+  for(let i in ordersByX){
+    ordersByX[i] = ordersByX[i].sort();
+    maxOrderNumb[i] = ordersByX[i][ordersByX[i].length-1];
+  }
   console.log(ordersByX)
+  console.log(maxOrderNumb)
+
+  /**
+   * Phase 2 - Creating a template. 
+   *  By creating a template that will be used across all the months,
+   *  we can ensure consistant formatting/styling/"better" by "reserving"
+   *  lines
+   */
 }
 function createTableFromJSON (json, pushTo){
   let rows = json.length + 1;

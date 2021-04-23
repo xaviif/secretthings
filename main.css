@@ -16,7 +16,19 @@ table, th, td {
   border-collapse: collapse;
 }
 th{
-  background-color: #42d8bf;
+  background-color: #10e9c8;
 }
 table tr:nth-child(even){background-color: #f2f2f2;}
 table tr:hover {background-color: #ddd;}
+#tables{
+  max-width: 98vw;
+  padding: 0 2vw;
+  display: flex;
+  justify-content: space-between;
+}
+#tables table{
+  margin: 0 1vw;
+  width: 100%;
+  min-width: 20%;
+  max-width: 40%;
+}
